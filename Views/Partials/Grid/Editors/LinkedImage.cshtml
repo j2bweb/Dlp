@@ -1,0 +1,20 @@
+﻿@inherits UmbracoViewPage<Lecoati.LeBlender.Extension.Models.LeBlenderModel>
+@using Umbraco.Web.Templates
+	
+	@if (Model.Items.Any())
+	{
+		var idImg =  Model.Items.ElementAt(0).GetValue<string>("Image");
+		var linkImg = Model.Items.ElementAt(0).GetValue<string>("link");
+		var img = Umbraco.Media(idImg);
+		
+		if(!String.IsNullOrEmpty(linkImg))
+		{
+			<a href="@linkImg">
+				<img src="@img.Url" alt="">
+			</a>
+		}else{
+			<img src="@img.Url" alt="">
+		}
+	}
+
+	

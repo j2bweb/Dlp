@@ -1,0 +1,25 @@
+﻿@inherits UmbracoViewPage<Lecoati.LeBlender.Extension.Models.LeBlenderModel>
+@using Umbraco.Web.Templates
+
+@{
+	var selection = Lecoati.LeBlender.Extension.Helper.GetCurrentContent();
+}
+
+<div class="bxslider-div">
+	<div class="bxslider">
+		@foreach (var item in @selection.Children)
+		{
+			foreach(var property in item.Properties.Where(p => p.PropertyTypeAlias == "content"))
+			{
+				<div class="slide">@Html.Partial("grid/Fanoe", (object)property.Value)</div>
+			}
+		}
+	</div>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$('.bxslider').bxSlider({
+		});
+	})
+</script>

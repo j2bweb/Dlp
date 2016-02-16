@@ -1,0 +1,35 @@
+﻿@inherits UmbracoViewPage<Lecoati.LeBlender.Extension.Models.LeBlenderModel>
+@using Umbraco.Web.Templates
+@using umbraco.MacroEngines
+	
+@if (Model.Items.Any())
+{
+	var gallery =  Model.Items.ElementAt(0).GetValue<string>("gallery");
+	var foldersId = gallery.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse);
+	<div id="gallery">
+	@foreach (var folderId in foldersId)
+	{
+		var folder = Umbraco.Media(folderId);
+		<div class="album" data-jgallery-album-title="@folder.name">
+			<h1>@folder.name</h1>
+			@if (folder != null && @folder.Children.Count() > 0)
+			{
+				foreach (var media in folder.Children)
+				{
+					<a href="@media.Url">
+						<img src="@media.Url" alt=""  data-jgallery-bg-color="#3e3e3e" data-jgallery-text-color="#fff" />	
+					</a>
+				}  
+			}  
+		</div>
+	}
+	</div>
+		
+	<script type="text/javascript">
+		$( function() {
+			$( '#gallery' ).jGallery( {
+				'mode': 'standard'
+			} )
+		} );
+    </script>
+}

@@ -1,0 +1,44 @@
+﻿@inherits UmbracoViewPage<Lecoati.LeBlender.Extension.Models.LeBlenderModel>
+@using Umbraco.Web.Templates
+
+ 
+@if (Model.Items.Any())
+{
+	var imageList =  Model.Items.ElementAt(0).GetValue<string>("slider");
+	if (!string.IsNullOrWhiteSpace(imageList))
+	{
+		var imgList = imageList.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse);
+
+		var imgListCollection = Umbraco.TypedMedia(imgList);
+
+		if (imgListCollection != null)
+		{
+			<div class="bxslider-div">
+				<div class="bxslider">
+					@foreach (var img in imgListCollection)
+					{
+						<div class="slide"><img src="@img.Url"></div>
+					}
+				</div>
+			</div>
+					
+			<script>
+				$(document).ready(function(){
+					$('.bxslider').bxSlider({
+						slideWidth: 400,
+						minSlides: 2,
+						maxSlides: 2,
+						slideMargin: 0,
+						moveSlides: 1,
+						auto: true,
+						pause: 4000,
+						
+					});
+				})
+			</script>
+		}
+	}
+}
+
+
+

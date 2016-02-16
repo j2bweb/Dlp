@@ -1,0 +1,37 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+	var backImg = CurrentPage.imageDeFond > 0 ? Umbraco.Media(CurrentPage.imageDeFond).url : null;
+}
+
+<div role="content">
+
+	<section class="light blogarchive equalizer" style="background:url(@backImg) no-repeat; background-size:cover;">
+		<div class="container">
+
+			<div class="row">
+				
+				@foreach(var post in CurrentPage.Children) 
+				{
+					var img = post.photoDePresentation > 0 ? Umbraco.Media(post.photoDePresentation)  : null;
+					
+					<div class="col-sm-6">
+						<div class="content equal">
+							<a href="@post.Url">
+								@if(img!= null)
+								{
+									<img src="@img.url"/>
+								}else{
+									<div class="date">@post.CreateDate.ToLongDateString()</div>
+									<h2>@post.Name</h2>		
+									<p>@Umbraco.Truncate(post.Introduction, 240, true)</p>
+								}
+							</a>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</section>
+
+</div>
